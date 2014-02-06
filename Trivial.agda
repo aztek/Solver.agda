@@ -47,10 +47,10 @@ module Properties where
                   (∃ λ j → find-model f (i ∷ is) ≡ just j ∧ Model f j)
   stable-search 0 f _ [] ([] , _ , true-by e)
     rewrite e = [] , refl , true-by e
-  stable-search (suc n) f is i (j , e₁ , true-by e₂)
-    rewrite e₁ = bool-split (eval f i)
-                   (λ x → i , if-true x  , true-by x)
-                   (λ x → j , if-false x , true-by e₂)
+  stable-search (suc n) f is i (j , e , model)
+    rewrite e = bool-split (eval f i)
+                  (λ x → i , if-true x  , true-by x)
+                  (λ x → j , if-false x , model)
 
 
   finds-model : ∀ (n : ℕ) (i : Interpretation n) is f →
