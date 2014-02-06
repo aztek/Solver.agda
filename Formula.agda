@@ -49,5 +49,4 @@ private
   f≡0 = refl
 
 
-Solver : Set
 Solver = (n : ℕ) → Formula n → Maybe (Interpretation n)
