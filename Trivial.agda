@@ -28,7 +28,7 @@ module Properties where
   open import Data.Product hiding (map) renaming (_×_ to _∧_)
   open import Data.Bool.Properties
   open import Data.List.Any using (here; there; module Membership-≡)
-  open Membership-≡
+  open Membership-≡ using (_∈_)
   open import ListProperties
   open import BoolProperties
   open import SAT
@@ -49,7 +49,7 @@ module Properties where
     rewrite e = [] , refl , true-by e
   stable-search (suc n) f is i (j , e , model)
     rewrite e = bool-split (eval f i)
-                  (λ x → i , if-true x  , true-by x)
+                  (λ x → i , if-true  x , true-by x)
                   (λ x → j , if-false x , model)
 
 
