@@ -1,4 +1,6 @@
-module BoolProperties where
+module Bool.Properties where
+
+-- Additional properties of booleans
 
 open import Relation.Binary.PropositionalEquality
 open import Data.Bool

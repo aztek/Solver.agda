@@ -8,15 +8,18 @@ open import Data.Maybe
 
 infixl 4 _∨_
 infixl 4 _∧_
+infixl 4 _⇔_
 infixl 6 ¬_
 
 -- Boolean formula, that contains n variables
 data Formula (n : ℕ) : Set where
-  const : Bool → Formula n
-  var   : Fin n → Formula n
-  ¬_    : Formula n → Formula n
-  _∨_   : Formula n → Formula n → Formula n
-  _∧_   : Formula n → Formula n → Formula n
+  const : (b : Bool) → Formula n
+  var   : (x : Fin n) → Formula n
+  ¬_    : (f : Formula n) → Formula n
+  _∨_   : (f g : Formula n) → Formula n
+  _∧_   : (f g : Formula n) → Formula n
+  _⇒_   : (f g : Formula n) → Formula n
+  _⇔_   : (f g : Formula n) → Formula n
 
 Interpretation = Vec Bool
 
@@ -26,6 +29,10 @@ eval (var x)   i = lookup x i
 eval (¬ f)     i = ¬♭ (eval f i)
 eval (f ∨ g)   i = (eval f i) ∨♭ (eval g i)
 eval (f ∧ g)   i = (eval f i) ∧♭ (eval g i)
+eval (f ⇒ g)   i = ¬♭ (eval f i) ∨♭ (eval g i)
+eval (f ⇔ g)   i = (a ∧♭ b) ∨♭ (¬♭ a ∧♭ ¬♭ b)
+                     where a = eval f i
+                           b = eval g i
 
 private
   -- Example
@@ -47,6 +54,10 @@ private
 
   f≡0 : eval f i ≡ false
   f≡0 = refl
+
+
+data Equivalent {n : ℕ} (f : Formula n) (g : Formula n) : Set where
+  by-eval : (∀ {i} → eval f i ≡ eval g i) → Equivalent f g
 
 
 Solver = (n : ℕ) → Formula n → Maybe (Interpretation n)
