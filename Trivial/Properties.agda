@@ -9,7 +9,7 @@ open import Data.Vec  using (Vec; _∷_; [])
 open import Data.List using (List; _∷_; []; _++_; map)
 open import Relation.Nullary.Core
 open import Relation.Binary.PropositionalEquality
-open import Data.Product hiding (map) renaming (_×_ to _∧_)
+open import Data.Product hiding (map) renaming (_×_ to _⋀_)
 open import Data.Bool.Properties using (¬-not)
 open import Data.List.Any using (here; there; module Membership-≡)
 open Membership-≡ using (_∈_)
@@ -26,8 +26,8 @@ all-interpretations (suc n) (false ∷ i) =
 
 
 stable-search : ∀ n (f : Formula n) is i →
-                (∃ λ j → find-model f is ≡ just j ∧ Model f j) →
-                (∃ λ j → find-model f (i ∷ is) ≡ just j ∧ Model f j)
+                (∃ λ j → find-model f is ≡ just j ⋀ Model f j) →
+                (∃ λ j → find-model f (i ∷ is) ≡ just j ⋀ Model f j)
 stable-search 0 _ _ [] ([] , _ , model)
   rewrite model = [] , refl , model
 stable-search (suc _) f _ i (j , e , model)
@@ -36,7 +36,7 @@ stable-search (suc _) f _ i (j , e , model)
 ...            | false    | [ _ ] = j , refl , model
 
 finds-model : ∀ n (i : Interpretation n) is f →
-              i ∈ is → Model f i → ∃ λ j → find-model f is ≡ just j ∧ Model f j
+              i ∈ is → Model f i → ∃ λ j → find-model f is ≡ just j ⋀ Model f j
 finds-model 0 [] [] _ () _
 finds-model 0 [] ([] ∷ _) _ _ model
   rewrite model = [] , refl , model
@@ -47,7 +47,7 @@ finds-model (suc n) j .(i ∷ is) f (there {i} {is} p) model
                                 (finds-model (suc n) j is f p model)
 
 
-soundness : ∀ n f → SAT f → ∃ λ i → trivial n f ≡ just i ∧ Model f i
+soundness : ∀ n f → SAT f → ∃ λ i → trivial n f ≡ just i ⋀ Model f i
 soundness 0 _ ([] , model)
   rewrite model = [] , refl , model
 soundness (suc n) f (true ∷ i , model) =
