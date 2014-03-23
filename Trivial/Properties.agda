@@ -14,7 +14,6 @@ open import Data.Bool.Properties using (¬-not)
 open import Data.List.Any using (here; there; module Membership-≡)
 open Membership-≡ using (_∈_)
 open import List.Properties
-open import Bool.Properties
 open import SAT
 
 all-interpretations : ∀ n i → i ∈ interpretations n
@@ -32,10 +31,9 @@ stable-search : ∀ n (f : Formula n) is i →
 stable-search 0 _ _ [] ([] , _ , model)
   rewrite model = [] , refl , model
 stable-search (suc _) f _ i (j , e , model)
-  rewrite e = bool-split (eval f i)
-                (λ x → i , if-true  x , x)
-                (λ x → j , if-false x , model)
-
+  rewrite e with eval f i | inspect (eval f) i
+...            | true     | [ r ] = i , refl , r
+...            | false    | [ _ ] = j , refl , model
 
 finds-model : ∀ n (i : Interpretation n) is f →
               i ∈ is → Model f i → ∃ λ j → find-model f is ≡ just j ∧ Model f j
