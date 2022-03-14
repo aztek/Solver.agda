@@ -5,7 +5,7 @@ open import Data.Fin hiding (_≤_; inject≤)
 open import Data.Product
 open import Data.List as List
 open import Data.Bool using (Bool; true; false)
-open import Function hiding (const)
+open import Function hiding (const; _⇔_)
 open import Formula
 open import CNF
 
@@ -84,8 +84,8 @@ mutual
 
 
   new-vars : {n : ℕ} → Formula n → Σ ℕ (λ m → n ≤ m × Formula m × List (Formula m))
-  new-vars (const b) = , (≤-refl , const b , [ const b ])
-  new-vars (var x)   = , (≤-refl , var x   , [  var x  ])
+  new-vars (const b) = _ , (≤-refl , const b , [ const b ])
+  new-vars (var x)   = _ , (≤-refl , var x   , [  var x  ])
   new-vars (¬ f)   = new-vars-unary  ¬_ f
   new-vars (f ∨ g) = new-vars-binary f _∨_ g
   new-vars (f ∧ g) = new-vars-binary f _∧_ g
