@@ -1,7 +1,7 @@
 module SAT where
 
 open import Relation.Binary.PropositionalEquality
-open import Relation.Nullary.Core
+open import Relation.Nullary
 open import Data.Maybe
 open import Data.Nat
 open import Data.Bool using (true)

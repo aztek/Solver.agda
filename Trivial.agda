@@ -2,7 +2,7 @@ module Trivial where
 
 open import Formula using (Formula; Interpretation; eval; Solver)
 open import Data.Nat
-open import Data.Maybe
+open import Data.Maybe hiding (map)
 open import Data.Bool using (Bool; true; false; if_then_else_)
 open import Data.Vec  using (Vec; _∷_; [])
 open import Data.List using (List; _∷_; []; _++_; map)

@@ -25,7 +25,7 @@ Interpretation = Vec Bool
 
 eval : {n : ℕ} → Formula n → Interpretation n → Bool
 eval (const b) _ = b
-eval (var x)   i = lookup x i
+eval (var x)   i = lookup i x
 eval (¬ f)     i = ¬♭ (eval f i)
 eval (f ∨ g)   i = (eval f i) ∨♭ (eval g i)
 eval (f ∧ g)   i = (eval f i) ∧♭ (eval g i)
